@@ -1,0 +1,163 @@
+<!doctype html>
+<html>
+<head>
+<title>
+CyberNX Technologies | Assignment
+</title>
+<link href="cnx-icon.png" rel="icon">
+<style>
+#logo {
+     width : 12rem ;
+     margin : 0.8rem 1.7rem ;
+}
+main,#pagination { 
+      width : 100%;
+      display : flex ;
+      flex-direction : column ;
+      align-items: center ;
+      margin-top : 1.5rem ;
+} 
+main
+#pagination {
+      margin-top : 1.5rem;
+      display : flex ;
+       flex-direction : row ;
+       justify-content : center ;
+}
+td {
+       text-align : center;
+       padding : 0.2rem 0.5rem; 
+       font-size : 1.1rem ;
+	 border : 1rem ;
+        background : #e7303043
+}
+th {
+       padding : 0.2rem 1rem; 
+       font-size : 1.1rem ;
+       background : #ca3233 ;
+       color : white ;
+       border-width : 1rem ;
+}
+.left { 
+        border-left : none;
+}
+.right {
+        border-right : none;
+}
+.print { 
+	padding:0.4rem 0.8rem;
+	color:#ca3233;
+	border-radius : .8rem ;
+	margin-left : 8rem ;
+	background : #fff;
+	border : 0.1rem #ca3233 solid;
+	cursor : pointer ;
+}
+.print:hover {
+	background : #ca3233;
+	color : #fff ;
+} 
+.move { 
+	padding:0.4rem 0.6rem;
+	background:#ca3233;
+	border-radius : .8rem ;
+	font-weight : 900;
+	margin-left : 1rem ;
+	cursor : pointer ;
+	color : #fff ;
+	display : flex ;
+	justify-content : center ;
+	border : .1rem #ca3233 groove;
+}
+#page {
+	margin-left : 1rem ;
+	font-weight : 900;
+}
+footer {
+	display : flex ;
+	flex-direction : column ;
+	justify-content : center ;
+	align-items : center ;
+	height : 6rem ;
+	color : white ; 
+	background : black ;
+	margin-top : 3.5rem ;
+}
+</style>
+<script>
+var resj;
+var page=1;
+async function todoapi() {
+	page=1;
+	const url = "https://jsonplaceholder.typicode.com/todos" ;
+	let res = await fetch(url);
+	console.log("res");
+	console.log(res);
+	resj = await res.json();
+	console.log(resj);
+	tbdata();
+	
+}
+function tbdata() {
+	
+	var tdata = ""; 
+	if(page<1) {
+	     page = 1;
+	     alert("This Is First Page. Can'nt go back anymore");
+	
+	}
+	resj.forEach( function data(todo, key) { 
+		if(todo.id>((page-1)*15) && todo.id<=(page*15)) {
+		tdata += '<tr><td><input type="checkbox" value='+todo.id+' id='+todo.id+'></td><td>'+todo.userId+'</td><td>'+todo.id+'</td><td>'+todo.title+' </td><td>'+todo.completed+' </td></tr>';
+	}
+	
+         });
+	document.getElementById("page").innerHTML = "Page "+page;
+	console.log(tdata);
+	document.getElementById("tdata").innerHTML = tdata;
+}
+</script>
+</head>
+<body>
+<header style="top:0;position:sticky;background:#fff;">
+<img src="CyberNX-Logo-Option-1.png" alt="CyberNX" id="logo"> 
+</header>
+<section><section onclick="todoapi()" class="move" id="fetch" >Show Table</section></section>
+<main>
+<table border="0">
+<thead>
+<tr>
+<th class="left" width="70rem">Select</th>
+<th width="75rem">User Id.</th>
+<th width="50rem">ID.</th>
+<th>Title</th>
+<th class="right" >Completed</th>
+</tr>
+</thead>
+<tbody id="tdata">
+
+</tbody>
+</table>
+<section id="pagination">
+<button onclick="page=page-1;tbdata()" class="move">&lt;&lt;</button>
+<section id="page">Page 1</section>
+<button onclick="page=page+1;tbdata()" class="move">&gt;&gt;</button>
+<button onclick="check()" class="print">Print ID.</button>
+</section>
+</main>
+<script>
+function check() {
+	var ids= [];
+	for (var i=(((page-1)*15)+1);i<=(page*15);i++) {
+	var yeo = document.getElementById(i);
+	if(yeo.checked==true)
+	       ids.push(document.getElementById(i).value);
+	}
+        	alert("Id : "+ids+" are selected.");
+       }
+</script>
+<footer>
+Designed & Developed By RAHUL VERMAN<div style="margin-top:0.5rem">2022 | INDIA</div>
+</footer>
+</body>
+</html>
